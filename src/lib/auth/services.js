@@ -3,9 +3,14 @@ import {
   CryptoProvider,
   ResponseMode,
 } from "@azure/msal-node";
-import { REDIRECT_URI } from "$env/static/private";
+
+// Assign the redirect URI based on the environment
+import { REDIRECT_URI, DEV_REDIRECT_URI } from "$env/static/private";
+import { dev } from '$app/environment';
+const redirect_uri = dev ? DEV_REDIRECT_URI : REDIRECT_URI;
+
 import { dev } from "$app/environment";
-import { msalConfig } from "./config";
+import { msalConfig } from "./msalConfig";
 
 const msalInstance = new ConfidentialClientApplication(msalConfig);
 const cryptoProvider = new CryptoProvider();
@@ -32,7 +37,7 @@ export const redirectToAuthCodeUrl = async (event) => {
   );
 
   const authCodeUrlRequest = {
-    redirectUri: REDIRECT_URI,
+    redirectUri: redirect_uri,
     responseMode: ResponseMode.QUERY,
     codeChallenge: pkceCodes.challenge,
     codeChallengeMethod: pkceCodes.challengeMethod,
@@ -60,7 +65,7 @@ export const getTokens = async (event) => {
       const error = event.url.searchParams.get("error");
       if (code) {
         const authCodeRequest = {
-          redirectUri: REDIRECT_URI,
+          redirectUri: redirect_uri,
           code,
           scopes: [],
           codeVerifier: event.cookies.get("pkceVerifier"),

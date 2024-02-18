@@ -4,7 +4,8 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"deploy": "swa deploy"
 	},
 	"devDependencies": {
 		"@azure/msal-node": "^2.6.4",
