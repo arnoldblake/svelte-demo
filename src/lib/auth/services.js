@@ -31,8 +31,6 @@ export const redirectToAuthCodeUrl = async (event) => {
     })
   );
 
-    console.log(event.url.pathname);
-
   const authCodeUrlRequest = {
     redirectUri: REDIRECT_URI,
     responseMode: ResponseMode.QUERY,
@@ -83,8 +81,6 @@ export const getTokens = async (event) => {
             cookiesConfig
           );
 
-          console.log(decodedState.redirectTo);
-
           return decodedState.redirectTo;
         } catch (error) {
           console.log(error);
@@ -93,13 +89,15 @@ export const getTokens = async (event) => {
         throw new Error(error);
       }
     } else {
+      console.log("CSRF token mismatch");
       throw new Error("CSRF token mismatch");
     }
   } else {
+    console.log("State parameter missing");
     throw new Error("State parameter missing");
   }
 };
 
 export const getLogoutUri = () => {
-    return `${msalConfig.auth.authority}/oauth2/v2.0/logout`;
-  };
+  return `${msalConfig.auth.authority}/oauth2/v2.0/logout`;
+};

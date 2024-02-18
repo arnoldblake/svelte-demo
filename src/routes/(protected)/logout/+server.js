@@ -1,5 +1,5 @@
 import { redirect } from "@sveltejs/kit";
-import { getLogoutUri } from "../../../lib/auth/services";
+import { getLogoutUri } from "$lib/auth/services";
 
 export const GET = async ({ cookies }) => {
     cookies.delete("accessToken", { path: '/' });
